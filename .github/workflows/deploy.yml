@@ -14,11 +14,18 @@ jobs:
     container:    #name of the image of the container
       image: node:16
     env:
-      MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-      MONGODB_CLUSTER_ADDRESS: githubactions.51r6vuq.mongodb.net
-      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      MONGODB_CONNECTION_PROTOCOL: mongodb # same as the docker image settings
+      MONGODB_CLUSTER_ADDRESS: mongodb # same label used in the service for the communication
+      MONGODB_USERNAME: root  # The username and password should be same as the docker image
+      MONGODB_PASSWORD: example
       PORT: 8080
+    # Adding a service to the Job  
+    services:    # we can define one or more services in a single job
+      mongodb:   # label - we are defining mongo db image for our job to run
+        image: mongo
+        env:                 # environment variables are mandate for this image
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
     steps:
       - name: Get Code
         uses: actions/checkout@v3
