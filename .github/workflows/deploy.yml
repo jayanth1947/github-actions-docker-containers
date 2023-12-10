@@ -15,7 +15,7 @@ jobs:
       image: node:16
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb # same as the docker image settings
-      MONGODB_CLUSTER_ADDRESS: mongodb # same label used in the service for the communication
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017 # same as the port of the docker image used for connecting
       MONGODB_USERNAME: root  # The username and password should be same as the docker image
       MONGODB_PASSWORD: example
       PORT: 8080
@@ -23,6 +23,8 @@ jobs:
     services:    # we can define one or more services in a single job
       mongodb:   # label - we are defining mongo db image for our job to run
         image: mongo
+        ports:
+          - 27017:27017
         env:                 # environment variables are mandate for this image
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
